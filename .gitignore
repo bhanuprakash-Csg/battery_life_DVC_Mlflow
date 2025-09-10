@@ -1,0 +1,14 @@
+ #----folders-----
+ data/
+ models/
+ mlruns/
+ results/
+ app.log
+#----files------
+app.log
+__pycache__/
+*.pyc
+*.pyo
+
+ #----env------
+  battery/
