@@ -1,0 +1,40 @@
+stages:
+  load_data:
+    cmd: python src/data_loading.py --input data/raw_data.csv --output data/processed/loaded_data.csv
+    deps:
+      - src/data_loading.py
+      - data/raw_data.csv
+    outs:
+      - data/processed/loaded_data.csv
+
+  preprocess_data:
+    cmd: python src/data_preprocessing.py --input_csv data/processed/loaded_data.csv --output_dir data/processed_data
+    deps:
+      - src/data_preprocessing.py
+      - data/processed/loaded_data.csv
+    outs:
+      - data/processed_data/x_train.pkl
+      - data/processed_data/x_test.pkl
+      - data/processed_data/y_train.pkl
+      - data/processed_data/y_test.pkl
+      - data/processed_data/feature_scaler.pkl
+      - data/processed_data/target_scaler.pkl
+      - data/processed_data/used_features.pkl
+  train:
+    cmd: python src/lstm_modeling.py
+    deps:
+      - src/lstm_modeling.py
+      - src/model_evaluation.py   # used inside
+      - data/processed_data/x_train.pkl
+      - data/processed_data/x_test.pkl
+      - data/processed_data/y_train.pkl
+      - data/processed_data/y_test.pkl
+      - data/processed_data/feature_scaler.pkl
+      - data/processed_data/target_scaler.pkl
+      - data/processed_data/used_features.pkl
+      - params.yaml
+    outs:
+      - results/recommended/lstm_model.keras
+      
+
+  
