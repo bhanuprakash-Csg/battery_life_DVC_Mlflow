@@ -1,0 +1,108 @@
+schema: '2.0'
+stages:
+  load_data:
+    cmd: python src/data_loading.py --input data/raw_data.csv --output 
+      data/processed/loaded_data.csv
+    deps:
+    - path: data/raw_data.csv
+      hash: md5
+      md5: 7d958103fd508dea954a314113e13a67
+      size: 159434
+    - path: src/data_loading.py
+      hash: md5
+      md5: 9692c5a24e5591cc88de15c8308c7eef
+      size: 1981
+    outs:
+    - path: data/processed/loaded_data.csv
+      hash: md5
+      md5: fa9b35968ed4064f9823443b80214805
+      size: 159429
+  preprocess_data:
+    cmd: python src/data_preprocessing.py --input_csv 
+      data/processed/loaded_data.csv --output_dir data/processed_data
+    deps:
+    - path: data/processed/loaded_data.csv
+      hash: md5
+      md5: fa9b35968ed4064f9823443b80214805
+      size: 159429
+    - path: src/data_preprocessing.py
+      hash: md5
+      md5: 1e163e9ca11adea3a980aa92fa8df1bb
+      size: 5101
+    outs:
+    - path: data/processed_data/feature_scaler.pkl
+      hash: md5
+      md5: 04b0de53a910bcf3ce4b85da945e414e
+      size: 2959
+    - path: data/processed_data/target_scaler.pkl
+      hash: md5
+      md5: 74fce70e50ae55eb2c3e9face46b1736
+      size: 1023
+    - path: data/processed_data/used_features.pkl
+      hash: md5
+      md5: 50ecc95d9c29280a1e018c549a39d9d6
+      size: 463
+    - path: data/processed_data/x_test.pkl
+      hash: md5
+      md5: 1bc978ba0285c92e74650d6ae54b3527
+      size: 201841
+    - path: data/processed_data/x_train.pkl
+      hash: md5
+      md5: c5d4b53629514de31344a9ccbeef2ea6
+      size: 806641
+    - path: data/processed_data/y_test.pkl
+      hash: md5
+      md5: b3de49de6508adeb3e8eff642b8a7dfd
+      size: 417
+    - path: data/processed_data/y_train.pkl
+      hash: md5
+      md5: 5f22d6d10262eeb9545f7a7646881b0a
+      size: 993
+  train:
+    cmd: python src/lstm_modeling.py
+    deps:
+    - path: data/processed_data/feature_scaler.pkl
+      hash: md5
+      md5: 04b0de53a910bcf3ce4b85da945e414e
+      size: 2959
+    - path: data/processed_data/target_scaler.pkl
+      hash: md5
+      md5: 74fce70e50ae55eb2c3e9face46b1736
+      size: 1023
+    - path: data/processed_data/used_features.pkl
+      hash: md5
+      md5: 50ecc95d9c29280a1e018c549a39d9d6
+      size: 463
+    - path: data/processed_data/x_test.pkl
+      hash: md5
+      md5: 1bc978ba0285c92e74650d6ae54b3527
+      size: 201841
+    - path: data/processed_data/x_train.pkl
+      hash: md5
+      md5: c5d4b53629514de31344a9ccbeef2ea6
+      size: 806641
+    - path: data/processed_data/y_test.pkl
+      hash: md5
+      md5: b3de49de6508adeb3e8eff642b8a7dfd
+      size: 417
+    - path: data/processed_data/y_train.pkl
+      hash: md5
+      md5: 5f22d6d10262eeb9545f7a7646881b0a
+      size: 993
+    - path: params.yaml
+      hash: md5
+      md5: b1b4dbcf5c967f8e10c2df5613085f2b
+      size: 432
+    - path: src/lstm_modeling.py
+      hash: md5
+      md5: d288fb618d7e86ee7b7b08b6d118d017
+      size: 9469
+    - path: src/model_evaluation.py
+      hash: md5
+      md5: 76a3b98983022eb27dbde651a9e8a098
+      size: 1724
+    outs:
+    - path: results/recommended/lstm_model.keras
+      hash: md5
+      md5: 96a5d2d542ea8f61d2010b3f67e12bca
+      size: 1667711
